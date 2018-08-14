@@ -1,0 +1,45 @@
+<header (mouseleave)="hide = true">
+    <section class="filter-list">
+            <a class="btn btn-expand" *ngIf="showAll == false" (click)="showAll = true; hide = true">></a>
+            <div class="department-list">
+                <div class="department" *ngIf="filterOptions.department.name == 'All Departments'">
+                        <div class="department-name-tooltip" *ngIf="toolTip && toolTip.length > 18">
+                            <span class="tooltip-content">{{toolTip}}</span>
+                        </div>
+                    <div class="dept-name" (mouseenter)="toolTip = filterOptions.department.name" (mouseleave)="toolTip = false">{{filterOptions.department.name}}</div>
+                    <div class="subjects-wrapper">
+                        <div class="subject-name" *ngFor="let subject of filterOptions.department.subjects" (click)="reset()" [routerLink]="['']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">{{subject}}</div>
+                    </div>
+                </div>
+
+                <div class="department canoverfill" *ngIf="filterOptions.department.name != 'All Departments'">
+                        <div class="department-name-tooltip" *ngIf="toolTip && toolTip.length > 18">
+                            <span class="tooltip-content">{{toolTip}}</span>
+                        </div>
+                    <div class="dept-name" (mouseenter)="toolTip = filterOptions.department.name" (focus)="loaded(filterOptions.department)" (mouseleave)="toolTip = false">{{filterOptions.department.name}}</div>
+                    <div class="subjects-wrapper">
+                        <div class="subject-name" *ngFor="let subject of filterOptions.department.subjects; let index = index" (click)="activateFilter(filterOptions.department, subject)" [routerLink]="['filter']" routerLinkActive="active" [queryParams]="{department: filterOptions.department.name.toString() | cleanUrl, subject: subject | cleanUrl}" [ngClass]="{'hide':index > 3 && hide == true}">{{subject}}</div>
+                        <div class="additional-subject" *ngIf="filterOptions.department.subjects.length > 4 && hide == true"><a (click)="hide =false">+ {{filterOptions.department.subjects.length-4}} more</a></div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <section class="filter-list expanded" *ngIf="showAll == true">
+        <a class="btn btn-close" (click)="showAll = false">x</a>
+        <div class="department-list">
+            <div class="department" *ngFor="let department of departments">
+                <div class="dept-name">{{department.name}}</div>
+                <div class="subjects-wrapper">
+                    <div class="subject-name" *ngFor="let subject of department.subjects" (click)="activateFilter(department, subject)" routerLinkActive="active" [routerLink]="['filter']" [queryParams]="{department: department.name | cleanUrl, subject: subject | cleanUrl}">{{subject}}</div>
+                </div>
+            </div>
+            <div class="department all">
+                <div class="dept-name">All Departments</div>
+                <div class="subjects-wrapper">
+                    <div class="subject-name" routerLinkActive="active" (click)="reset()" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['']">All Subjects</div>
+                </div>
+            </div>
+        </div>
+    </section>
+</header>

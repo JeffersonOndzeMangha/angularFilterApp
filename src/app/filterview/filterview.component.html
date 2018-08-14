@@ -1,0 +1,13 @@
+<section>
+    <div class="data-wrapper">
+        <ul class="filtered-student" >
+          <li *ngFor="let student of students">
+                <span class="name">{{student.familyName}}, {{student.givenName}}</span>
+                <span class="dob">DOB: <span class="value">{{student.dob | date:"MM/dd/yyyy"}}</span></span>
+                <span class="admit-date">Admitted: <span class="value">{{student.admitDate | date:"MMM d, y"}}</span></span>
+                <span class="grad-date">Anticipated Graduation: <span class="value">{{student.anticipatedGraduationDate | date:"MMM y"}}</span></span>
+                <span class="mentor">Mentor: <span class="value">{{student.mentor.familyName}}, {{student.mentor.givenName}}</span></span>
+            </li>
+        </ul>
+    </div>
+</section>
