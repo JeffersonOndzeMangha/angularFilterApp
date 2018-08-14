@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { FilterService } from '../services/filter.service';
 
@@ -7,37 +7,27 @@ import { FilterService } from '../services/filter.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent{
   hide:boolean = true;
-  styles:object = {};
   showAll:boolean = false;
   departments:Array<any> = [];
   filterOptions:any;
-  subjectOptions: object = {
-    show: [],
-    hidden: []
-  }
-  t:any;
   toolTip:any;
 
   constructor(public filterService:FilterService) { 
     this.filterOptions = this.filterService.filterP.filterOptions;
-  }
-
-  ngOnInit() {
     this.departments = this.filterService.getDepartements();
   }
+  //activates filters, this triggers the filterService.filter function, in turn emitting a new filterActivated event which updates the FilterView Component
   activateFilter(department, subject){
     let response = this.filterService.filter(department, subject);
     this.filterOptions = response.filterOptions;
     this.showAll = false;
   }
+  //resets filters back to all departments and subjects, triggers the filterService.filter function with no queryParameters
   reset(){
     this.filterOptions = this.filterService.filter().filterOptions;
     this.showAll = false;
-  }
-  loaded(item){
-    console.log(item);
   }
 
 }
